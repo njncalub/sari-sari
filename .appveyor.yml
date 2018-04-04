@@ -36,6 +36,15 @@ init:
   - "SET PATH=%POSTGRES_PATH%/bin;%PATH%"
 
 install:
+  # Setup database
+  - psql -U %PGUSER% -c "CREATE USER %POSTGRES_USER% WITH PASSWORD '%POSTGRES_PASSWORD%';"
+  - psql -U %PGUSER% -c "ALTER USER %POSTGRES_USER% CREATEDB;"
+  - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET client_encoding TO 'utf8';"
+  - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET default_transaction_isolation TO 'read committed';"
+  - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET timezone TO 'UTC';"
+  - psql -U %PGUSER% -c "CREATE DATABASE %POSTGRES_DB%;"
+  - psql -U %PGUSER% -c "GRANT ALL PRIVILEGES ON DATABASE %POSTGRES_DB% TO %POSTGRES_USER%;"
+  
   # update pgpass.conf
   - SET PGPASS="%POSTGRES_HOST%:*:%POSTGRES_DB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
   - echo %PGPASS%
@@ -51,16 +60,6 @@ install:
   
   # migrate database
   - "%PYTHON%\\python.exe manage.py migrate"
-
-build_script:
-  # Setup database
-  - psql -U %PGUSER% -c "CREATE USER %POSTGRES_USER% WITH PASSWORD '%POSTGRES_PASSWORD%';"
-  - psql -U %PGUSER% -c "ALTER USER %POSTGRES_USER% CREATEDB;"
-  - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET client_encoding TO 'utf8';"
-  - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET default_transaction_isolation TO 'read committed';"
-  - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET timezone TO 'UTC';"
-  - psql -U %PGUSER% -c "CREATE DATABASE %POSTGRES_DB%;"
-  - psql -U %PGUSER% -c "GRANT ALL PRIVILEGES ON DATABASE %POSTGRES_DB% TO %POSTGRES_USER%;"
 
 before_test:
   - "%PYTHON%\\python.exe --version"
