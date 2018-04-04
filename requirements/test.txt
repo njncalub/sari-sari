@@ -1,1 +1,5 @@
 -r ./local.txt
+
+# Code quality
+# ------------------------------------------------------------------------------
+coveralls==1.3.0  # https://github.com/coveralls-clients/coveralls-python

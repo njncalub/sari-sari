@@ -22,4 +22,5 @@ script:
 after_script:
   - ./utility/drop_database.sh
 after_success:
+  - coverage run manage.py test
   - coveralls
