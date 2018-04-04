@@ -3,8 +3,7 @@ language: python
 python:
   - "3.6"
 env:
-  - DJANGO_SETTINGS_MODULE=config.settings.test
-  - DATABASE_URL=postgres://sarisari_dev:sarisari_password@localhost:5432/sarisari_db
+  - DJANGO_SETTINGS_MODULE=config.settings.test; DATABASE_URL=postgres://sarisari_dev:sarisari_password@localhost:5432/sarisari_db
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq build-essential gettext python-dev zlib1g-dev libpq-dev xvfb
@@ -22,7 +21,7 @@ before_script:
   - psql -c "ALTER ROLE sarisari_dev SET default_transaction_isolation TO 'read committed';" -U postgres
   - psql -c "ALTER ROLE sarisari_dev SET timezone TO 'UTC';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE sarisari_db TO sarisari_dev;" -U postgres
-  - python manage.py migrate
 script:
+  - python manage.py migrate
   - python manage.py test
   - py.test
