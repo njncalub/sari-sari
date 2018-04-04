@@ -290,5 +290,9 @@ sarisari/media/
 # See issue https://github.com/pydanny/cookiecutter-django/issues/1321
 !/compose/local/
 
+
 .env
-.envs/*
+.envs/.local/*
+.envs/.production/*
+!.envs/.local/.*.example
+!.envs/.production/.*.example
