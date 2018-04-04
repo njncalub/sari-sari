@@ -41,7 +41,7 @@ No. We will be asking all new contributors and patch submitters to sign before t
 Based on material Copyright Django Software Foundation. `CC-BY <http://creativecommons.org/licenses/by/3.0/us/>`_ Modified slightly to reflect sari-sari.
 
 sari-sari Individual Contributor License Agreement
-=====================================================
+==================================================
 
 Thank you for your interest in contributing to sari-sari ("We" or "Us").
 This contributor agreement ("Agreement") documents the rights granted by contributors to Us. To make this document effective, please sign it and send it to Us by electronic submission on https://cla-assistant.io. This is a legally binding document, so please read it carefully before agreeing to it. The Agreement may cover more than one software project managed by Us.

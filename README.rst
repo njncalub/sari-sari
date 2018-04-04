@@ -77,7 +77,7 @@ Setting Up Your Users
 
 * To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
 
-* To create an **superuser account**, use this command::
+* To create a **superuser account**, use this command: ::
 
     $ python manage.py createsuperuser
 
@@ -110,4 +110,4 @@ We assure you - the little voice in your head is wrong. If you can write code at
 
 Being an open source contributor doesn't just mean writing code, either. You can help out by writing documentation, tests, or even giving feedback about the project (and yes - that includes giving feedback about the contribution process). Some of these contributions may be the most valuable to the project as a whole, because you're coming to the project with fresh eyes, so you can see the errors and assumptions that seasoned contributors have glossed over.
 
-For more information, please read the see the `contributing guide <https://github.com/njncalub/sari-sari/blob/master/CONTRIBUTING.rst>`_.
+For more information, please see the `contributing guide <https://github.com/njncalub/sari-sari/blob/master/CONTRIBUTING.rst>`_.
