@@ -24,8 +24,8 @@ Item Inventory Management System
     :target: https://ci.appveyor.com/project/njncalub/sari-sari
     :alt: AppVeyor Build Status
 
-.. |coverage| image:: https://coveralls.io/repos/njncalub/sari-sari/badge.svg?branch=master
-    :target: https://coveralls.io/r/njncalub/sari-sari
+.. |coverage| image:: https://coveralls.io/repos/github/njncalub/sari-sari/badge.svg?branch=master
+    :target: https://coveralls.io/github/njncalub/sari-sari?branch=master
     :alt: Code Coverage Status
 
 .. |license| image:: https://img.shields.io/badge/License-MIT-blue.svg

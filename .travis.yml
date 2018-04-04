@@ -21,3 +21,5 @@ script:
   - py.test
 after_script:
   - ./utility/drop_database.sh
+after_success:
+  - coveralls
