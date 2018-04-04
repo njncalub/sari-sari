@@ -13,12 +13,13 @@ environment:
   REQUIREMENTS_FILE: "requirements/appveyor.txt"
   
   # postgres
+  POSTGRES_PATH: "C:/Program Files/PostgreSQL/10"
   PGTESTDB: "testdb"
   PGUSER: "postgres"
   PGPASSWORD: "Password12!"
-  POSTGRES_PATH: "C:/Program Files/PostgreSQL/10"
-  POSTGRES_USER: "postgres"
-  POSTGRES_PASSWORD: "Password12!"
+  PGDATA: "%POSTGRES_PATH%\\data"
+  POSTGRES_USER: "sarisari_dev"
+  POSTGRES_PASSWORD: "sarisari_password"
   POSTGRES_HOST: "127.0.0.1"
   POSTGRES_PORT: "5432"
   POSTGRES_DB: sarisari_db
@@ -31,6 +32,8 @@ services:
 matrix:
   fast_finish: true
 
+build: off
+
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:\\Python*"
@@ -39,11 +42,12 @@ init:
 install:
   # update pgpass.conf
   - SET PGPASS="%POSTGRES_HOST%:*:%PGTESTDB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
-  - echo %PGPASS%
   - echo %PGPASS% > %POSTGRES_PATH%\\pgpass.conf
   - echo %PGPASS% > pgpass.conf
   - echo %PGPASS% > %userprofile%\\pgpass.conf
   - SET PGPASSFILE=%POSTGRES_PATH%\\pgpass.conf
+  
+  - net start postgresql-x64-10
   
   # Setup database
   - psql -U %PGUSER% -c "CREATE USER %POSTGRES_USER% WITH PASSWORD '%POSTGRES_PASSWORD%';"
@@ -69,7 +73,7 @@ before_test:
 test_script:
   # Make sure we are not in a directory where we might import a
   # different version of psycopg2
-  - CD \
+  - CD "C:\\projects\\sari-sari"
   
   # Print psycopg and libpq versions
   - "%PYTHON%\\python.exe -c \"import psycopg2; print(psycopg2.__version__)\""
@@ -79,4 +83,4 @@ test_script:
   # Test
   - "%PYTHON%\\python.exe manage.py test"
   - "%PYTHON%\\python.exe -m coverage run manage.py test"
-  - "%PYTHON%\\python.exe -m py.test"
+  - "%PYTHON%\\python.exe -m pytest"
