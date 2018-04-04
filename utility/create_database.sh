@@ -2,11 +2,15 @@
 
 testing[0]='test' || (echo 'Failure: arrays not supported in this version of bash.' && exit 2)
 
-POSTGRES_ROOT_USER=postgres
+POSTGRES_ROOT_USER=${1:-postgres}
+POSTGRES_ROOT_TABLE=${2:-postgres}
 
 function exec_psql()
 {
-    psql -c "$1" -U $POSTGRES_ROOT_USER
+    if [ -n "$1" ]; then
+        echo "psql -d $POSTGRES_ROOT_TABLE -c \"$1\" -U $POSTGRES_ROOT_USER";
+        psql -d $POSTGRES_ROOT_TABLE -c "$1" -U $POSTGRES_ROOT_USER
+    fi
 }
 
 if [ -n "$POSTGRES_DB" ] && [ -n "$POSTGRES_USER" ] && [ -n "$POSTGRES_PASSWORD" ]; then
@@ -17,18 +21,15 @@ if [ -n "$POSTGRES_DB" ] && [ -n "$POSTGRES_USER" ] && [ -n "$POSTGRES_PASSWORD"
         "ALTER ROLE $POSTGRES_USER SET client_encoding TO 'utf8';"
         "ALTER ROLE $POSTGRES_USER SET default_transaction_isolation TO 'read committed';"
         "ALTER ROLE $POSTGRES_USER SET timezone TO 'UTC';"
-        "GRANT ALL PRIVILEGES ON DATABASE sarisari_db TO $POSTGRES_USER;"
+        "GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO $POSTGRES_USER;"
     )
     
-    index=0
-    while [ "x${cmdlist[index]}" != "x" ]
+    for cmd in "${cmdlist[@]}"
     do
-       index=$(( $index + 1 ))
-       exec_psql "${cmdlist[index]}"
+       exec_psql "$cmd"
     done
-    
 else
-    echo "Set required variables";
+    echo "Set required environment variables";
 fi
 
 
