@@ -14,8 +14,10 @@ env:
 install:
   - ./utility/install_os_dependencies.sh
   - ./utility/install_python_dependencies.sh test
-  - ./utility/initialize_database.sh
+  - ./utility/create_database.sh
 script:
   - python manage.py migrate
   - python manage.py test
   - py.test
+after_script:
+  - ./utility/drop_database.sh
