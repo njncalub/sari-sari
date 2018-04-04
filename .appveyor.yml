@@ -13,6 +13,7 @@ environment:
   REQUIREMENTS_FILE: "requirements/appveyor.txt"
   
   # postgres
+  PGTESTDB: "testdb"
   PGUSER: "postgres"
   PGPASSWORD: "Password12!"
   POSTGRES_PATH: "C:/Program Files/PostgreSQL/10"
@@ -46,7 +47,7 @@ install:
   - psql -U %PGUSER% -c "GRANT ALL PRIVILEGES ON DATABASE %POSTGRES_DB% TO %POSTGRES_USER%;"
   
   # update pgpass.conf
-  - SET PGPASS="%POSTGRES_HOST%:*:%POSTGRES_DB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
+  - SET PGPASS="%POSTGRES_HOST%:*:%PGTESTDB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
   - echo %PGPASS%
   - echo %PGPASS% > %POSTGRES_PATH%\\pgpass.conf
   - echo %PGPASS% > pgpass.conf
