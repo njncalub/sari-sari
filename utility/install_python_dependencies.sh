@@ -1,5 +1,6 @@
 #!/bin/bash
 
+FILE=${1:-local}
 WORK_DIR="$(dirname "$0")"
 PROJECT_DIR="$(dirname "$WORK_DIR")"
 
@@ -33,7 +34,5 @@ if [ -z "$VIRTUAL_ENV" ]; then
     echo >&2 -e "\n"
     exit 1;
 else
-
-    pip install -r $PROJECT_DIR/requirements/local.txt
-    
+    pip install -r $PROJECT_DIR/requirements/$FILE.txt
 fi

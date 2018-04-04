@@ -3,24 +3,18 @@ language: python
 python:
   - "3.6"
 env:
-  - DJANGO_SETTINGS_MODULE=config.settings.test; DATABASE_URL=postgres://sarisari_dev:sarisari_password@localhost:5432/sarisari_db
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq build-essential gettext python-dev zlib1g-dev libpq-dev xvfb
-  - sudo apt-get install -qq libtiff4-dev libjpeg8-dev libfreetype6-dev liblcms1-dev libwebp-dev
-  - sudo apt-get install -qq graphviz-dev python-setuptools python3-dev python-virtualenv python-pip
-  - sudo apt-get install -qq firefox automake libtool libreadline6 libreadline6-dev libreadline-dev
-  - sudo apt-get install -qq libsqlite3-dev libxml2 libxml2-dev libssl-dev libbz2-dev wget curl llvm
+  global:
+    - DJANGO_SETTINGS_MODULE=config.settings.test
+    - POSTGRES_USER=sarisari_dev
+    - POSTGRES_PASSWORD=sarisari_password
+    - DB_HOST=localhost
+    - DB_PORT=5432
+    - POSTGRES_DB=sarisari_db
+    - DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$DB_HOST:$DB_PORT/$POSTGRES_DB
 install:
-  - pip install -r requirements/test.txt
-before_script:
-  - psql -c "CREATE DATABASE sarisari_db;" -U postgres
-  - psql -c "CREATE USER sarisari_dev WITH PASSWORD 'sarisari_password';" -U postgres
-  - psql -c "ALTER USER sarisari_dev CREATEDB;" -U postgres
-  - psql -c "ALTER ROLE sarisari_dev SET client_encoding TO 'utf8';" -U postgres
-  - psql -c "ALTER ROLE sarisari_dev SET default_transaction_isolation TO 'read committed';" -U postgres
-  - psql -c "ALTER ROLE sarisari_dev SET timezone TO 'UTC';" -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE sarisari_db TO sarisari_dev;" -U postgres
+  - ./utility/install_os_dependencies.sh
+  - ./utility/install_python_dependencies.sh test
+  - ./utility/initialize_database.sh
 script:
   - python manage.py migrate
   - python manage.py test
