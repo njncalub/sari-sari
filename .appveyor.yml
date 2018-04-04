@@ -9,7 +9,7 @@ environment:
   global:
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: Password12!
-    DB_HOST: localhost
+    DB_HOST: 127.0.0.1
     DB_PORT: 5432
     POSTGRES_DB: sarisari_db
     DATABASE_URL: "postgres://%POSTGRES_USER%:%POSTGRES_PASSWORD%@%DB_HOST%:%DB_PORT%/%POSTGRES_DB%"
@@ -34,7 +34,8 @@ install:
   - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
   - "%PYTHON%\\python.exe C:\\get-pip.py"
   - "%PYTHON%\\Scripts\\pip.exe install -r %REQUIREMENTS_FILE%"
-  - SET PATH=%PROGRAMFILES%\PostgreSQL\10.1\bin\;%PATH%
+  - ps: "ls %PROGRAMFILES%\\*"
+  - SET PATH=%PROGRAMFILES%\PostgreSQL\10\bin\;%PATH%
   - "%PYTHON%\\python.exe manage.py migrate"
 
 before_test:
