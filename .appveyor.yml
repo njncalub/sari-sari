@@ -14,7 +14,6 @@ environment:
   global:
     PGUSER: postgres
     PGPASSWORD: Password12!
-    POSTGRES_BIN: "C:/Program Files/PostgreSQL/10.3/bin"
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: Password12!
     DB_HOST: localhost
@@ -36,7 +35,7 @@ install:
   - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
   - "%PYTHON%/python.exe C:/get-pip.py"
   - "%PYTHON%/Scripts/pip.exe install -r %REQUIREMENTS_FILE%"
-  - "%POSTGRES_BIN%/createdb %POSTGRES_DB%"
+  - "C:/Program Files/PostgreSQL/10.3/bin/createdb %POSTGRES_DB%"
   - "%PYTHON%/python.exe manage.py migrate"
 
 test_script:
