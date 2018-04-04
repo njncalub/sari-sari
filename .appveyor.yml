@@ -13,15 +13,15 @@ environment:
   REQUIREMENTS_FILE: "requirements/appveyor.txt"
   
   # postgres
-  PGUSER: postgres
-  PGPASSWORD: Password12!
+  PGUSER: "postgres"
+  PGPASSWORD: "Password12!"
   POSTGRES_PATH: "C:\Program Files\PostgreSQL\10"
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: Password12!
-  POSTGRES_HOST: 127.0.0.1
-  POSTGRES_PORT: 5432
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "Password12!"
+  POSTGRES_HOST: "127.0.0.1"
+  POSTGRES_PORT: "5432"
   POSTGRES_DB: sarisari_db
-  POSTGRES_CONN: tcp://%POSTGRES_HOST%:%POSTGRES_PORT%
+  POSTGRES_CONN: "tcp://%POSTGRES_HOST%:%POSTGRES_PORT%"
   DATABASE_URL: "postgres://%POSTGRES_USER%:%POSTGRES_PASSWORD%@%POSTGRES_HOST%:%POSTGRES_PORT%/%POSTGRES_DB%"
 
 services:
