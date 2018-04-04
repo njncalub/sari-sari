@@ -36,18 +36,21 @@ init:
   - "SET PATH=%POSTGRES_PATH%/bin;%PATH%"
 
 install:
-  - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
-  - "%PYTHON%\\python.exe C:\\get-pip.py"
-  - "%PYTHON%\\Scripts\\pip.exe install -r %REQUIREMENTS_FILE%"
-  - "%PYTHON%\\python.exe manage.py migrate"
-  
   # update pgpass.conf
   - SET PGPASS="%POSTGRES_HOST%:*:%POSTGRES_DB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
   - echo %PGPASS%
   - echo %PGPASS% > %POSTGRES_PATH%\\pgpass.conf
   - echo %PGPASS% > pgpass.conf
   - echo %PGPASS% > %userprofile%\\pgpass.conf
-  - SET PGPASSFILE=C:\Program Files\PostgreSQL\9.4\pgpass.conf
+  - SET PGPASSFILE=%POSTGRES_PATH%\\pgpass.conf
+  
+  # install pip
+  - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
+  - "%PYTHON%\\python.exe C:\\get-pip.py"
+  - "%PYTHON%\\Scripts\\pip.exe install -r %REQUIREMENTS_FILE%"
+  
+  # migrate database
+  - "%PYTHON%\\python.exe manage.py migrate"
 
 build_script:
   # Setup database
