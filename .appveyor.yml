@@ -1,6 +1,3 @@
-platform:
-  - x64
-
 services:
   - postgresql101
 
@@ -27,14 +24,14 @@ init:
   - "ECHO %PYTHON%"
   - ps: "ls C:\\Python*"
   - "ECHO %PATH%"
-  - ps: "ls C:\\Program Files\\PostgreSQL\\*"
+  - ps: "ls %PROGRAMFILES%\\PostgreSQL\\*"
 
 build: off
 
 build_script:
   - SET PGUSER=postgres
   - SET PGPASSWORD=Password12!
-  - SET PATH=C:\Program Files\PostgreSQL\10.3\bin\;%PATH%
+  - SET PATH=%PROGRAMFILES%\PostgreSQL\10.1\bin\;%PATH%
 
 install:
   - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
