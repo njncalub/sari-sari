@@ -37,6 +37,14 @@ init:
   - "SET PATH=%POSTGRES_PATH%/bin;%PATH%"
 
 install:
+  # update pgpass.conf
+  - SET PGPASS="%POSTGRES_HOST%:*:%PGTESTDB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
+  - echo %PGPASS%
+  - echo %PGPASS% > %POSTGRES_PATH%\\pgpass.conf
+  - echo %PGPASS% > pgpass.conf
+  - echo %PGPASS% > %userprofile%\\pgpass.conf
+  - SET PGPASSFILE=%POSTGRES_PATH%\\pgpass.conf
+  
   # Setup database
   - psql -U %PGUSER% -c "CREATE USER %POSTGRES_USER% WITH PASSWORD '%POSTGRES_PASSWORD%';"
   - psql -U %PGUSER% -c "ALTER USER %POSTGRES_USER% CREATEDB;"
@@ -45,14 +53,6 @@ install:
   - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET timezone TO 'UTC';"
   - psql -U %PGUSER% -c "CREATE DATABASE %POSTGRES_DB%;"
   - psql -U %PGUSER% -c "GRANT ALL PRIVILEGES ON DATABASE %POSTGRES_DB% TO %POSTGRES_USER%;"
-  
-  # update pgpass.conf
-  - SET PGPASS="%POSTGRES_HOST%:*:%PGTESTDB%:%POSTGRES_USER%:%POSTGRES_PASSWORD%"
-  - echo %PGPASS%
-  - echo %PGPASS% > %POSTGRES_PATH%\\pgpass.conf
-  - echo %PGPASS% > pgpass.conf
-  - echo %PGPASS% > %userprofile%\\pgpass.conf
-  - SET PGPASSFILE=%POSTGRES_PATH%\\pgpass.conf
   
   # install pip
   - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
