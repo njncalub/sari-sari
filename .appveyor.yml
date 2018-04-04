@@ -25,14 +25,24 @@ matrix:
 
 init:
   - "ECHO %PYTHON%"
-  - ps: "ls C:/Python*"
+  - ps: "ls C:\\Python*"
   - "ECHO %PATH%"
-  - ps: "ls C:/Program Files/PostgreSQL"
+  - ps: "ls C:\\Program Files\\PostgreSQL\\*"
 
-before_build:
+build: off
+
+build_script:
   - SET PGUSER=postgres
   - SET PGPASSWORD=Password12!
   - SET PATH=C:\Program Files\PostgreSQL\10.3\bin\;%PATH%
+
+install:
+  - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
+  - "%PYTHON%\\python.exe C:\\get-pip.py"
+  - "%PYTHON%\\Scripts\\pip.exe install -r %REQUIREMENTS_FILE%"
+  - "%PYTHON%\\python.exe manage.py migrate"
+
+before_test:
   - psql -U %PGUSER% -c "CREATE USER %POSTGRES_USER% WITH PASSWORD '%POSTGRES_PASSWORD%';"
   - psql -U %PGUSER% -c "ALTER USER %POSTGRES_USER% CREATEDB;"
   - psql -U %PGUSER% -c "ALTER ROLE %POSTGRES_USER% SET client_encoding TO 'utf8';"
@@ -41,14 +51,19 @@ before_build:
   - psql -U %PGUSER% -c "CREATE DATABASE %POSTGRES_DB%;"
   - psql -U %PGUSER% -c "GRANT ALL PRIVILEGES ON DATABASE %POSTGRES_DB% TO %POSTGRES_USER%;"
 
-install:
-  - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
-  - "%PYTHON%/python.exe C:/get-pip.py"
-  - "%PYTHON%/Scripts/pip.exe install -r %REQUIREMENTS_FILE%"
-  - "%PYTHON%/python.exe manage.py migrate"
-
 test_script:
-  - "%PYTHON%/Scripts/pip.exe --version"
-  - "%PYTHON%/python.exe manage.py test"
-  - "%PYTHON%/python.exe -m coverage run manage.py test"
-  - "%PYTHON%/python.exe -m py.test"
+  - "%PYTHON%\\Scripts\\pip.exe --version"
+  
+  # Make sure we are not in a directory where we might import a
+  # different version of psycopg2
+  - CD \
+  
+  # Print psycopg and libpq versions
+  - "%PYTHON%\\python.exe -c \"import psycopg2; print(psycopg2.__version__)\""
+  - "%PYTHON%\\python.exe -c \"import psycopg2; print(psycopg2.__libpq_version__)\""
+  - "%PYTHON%\\python.exe -c \"import psycopg2; print(psycopg2.extensions.libpq_version())\""
+  
+  # Test
+  - "%PYTHON%\\python.exe manage.py test"
+  - "%PYTHON%\\python.exe -m coverage run manage.py test"
+  - "%PYTHON%\\python.exe -m py.test"
