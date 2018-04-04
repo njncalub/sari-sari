@@ -23,20 +23,18 @@ matrix:
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:\\Python*"
-  - "ECHO %PATH%"
-  - ps: "ls %PROGRAMFILES%\\PostgreSQL\\*"
 
 build: off
 
 build_script:
   - SET PGUSER=postgres
   - SET PGPASSWORD=Password12!
-  - SET PATH=%PROGRAMFILES%\PostgreSQL\10.1\bin\;%PATH%
 
 install:
   - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
   - "%PYTHON%\\python.exe C:\\get-pip.py"
   - "%PYTHON%\\Scripts\\pip.exe install -r %REQUIREMENTS_FILE%"
+  - SET PATH=%PROGRAMFILES%\PostgreSQL\10.1\bin\;%PATH%
   - "%PYTHON%\\python.exe manage.py migrate"
 
 before_test:
