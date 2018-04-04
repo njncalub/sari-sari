@@ -31,11 +31,10 @@ build_script:
   - SET PGPASSWORD=Password12!
 
 install:
+  - SET PATH=C:\Program Files\PostgreSQL\10\bin\;%PATH%
   - ps: (new-object net.webclient).DownloadFile('https://bootstrap.pypa.io/get-pip.py', 'C:/get-pip.py')
   - "%PYTHON%\\python.exe C:\\get-pip.py"
   - "%PYTHON%\\Scripts\\pip.exe install -r %REQUIREMENTS_FILE%"
-  - ps: "ls %PROGRAMFILES%\\*"
-  - SET PATH=%PROGRAMFILES%\PostgreSQL\10\bin\;%PATH%
   - "%PYTHON%\\python.exe manage.py migrate"
 
 before_test:
