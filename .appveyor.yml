@@ -2,7 +2,7 @@ platform:
   - x64
 
 services:
-  - postgresql103
+  - postgresql101
 
 environment:
   PYTHONIOENCODING: "utf-8"
@@ -26,6 +26,8 @@ matrix:
 init:
   - "ECHO %PYTHON%"
   - ps: "ls C:/Python*"
+  - "ECHO %PATH%"
+  - ps: "ls C:/Program Files/PostgreSQL"
 
 before_build:
   - SET PGUSER=postgres
