@@ -80,6 +80,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'phonenumber_field',
     'simple_history',
+    'djmoney',
 ]
 LOCAL_APPS = [
     'sarisari.users.apps.UsersConfig',

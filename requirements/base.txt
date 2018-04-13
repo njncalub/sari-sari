@@ -21,3 +21,4 @@ coreapi==2.3.3  # https://github.com/core-api/python-client
 # Utilities
 phonenumberslite==8.9.3  # https://github.com/stefanfoulis/django-phonenumber-field
 django-simple-history==2.0  # https://github.com/treyhunner/django-simple-history
+django-money==0.13.1  # https://github.com/django-money/django-money
